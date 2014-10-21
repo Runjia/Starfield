@@ -1,12 +1,12 @@
 Particle [] number;
 
-
 void setup()
 {
 	size(500,500);
 	number=new Particle[1000];
-	for (int i=1;i<number.length;i++){
-		number[0]=new OddballParticle();
+	number[0]=new OddballParticle();
+	number[1]=new JumboParticle();
+	for (int i=2;i<number.length;i++){
 		number[i]=new NormalParticle();
 	}
 }
@@ -18,6 +18,12 @@ void draw()
 		number[i].move();
 		number[i].show();
 	}
+}
+
+interface Particle
+{
+	public void move();
+	public void show();
 }
 
 class NormalParticle implements Particle
@@ -42,6 +48,8 @@ class NormalParticle implements Particle
 		if ((x<0 || x>500) || (y<0 || y>500)){
 			x=250;
 			y=250;
+			angle=(Math.random()*2)*(Math.PI);
+			speed=Math.random()*2+2;
 		}
 	}
 
@@ -52,14 +60,6 @@ class NormalParticle implements Particle
 		ellipse((float)x,(float)y,4,4);
 	}
 }
-
-interface Particle
-{
-	public void move();
-	public void show();
-}
-
-
 
 class OddballParticle implements Particle
 {
@@ -88,6 +88,38 @@ class OddballParticle implements Particle
 		noStroke();
 		fill(255);
 		ellipse((float)x,(float)y,50,50);
+	}
+}
+
+class JumboParticle extends NormalParticle
+{
+	double x,y,angle,speed;
+	JumboParticle()
+	{
+		x=250;
+		y=250;
+		angle=(Math.random()*2)*(Math.PI);
+		speed=Math.random()*2+2;
+	}
+
+	public void move()
+	{
+		x=x+(Math.cos(angle)*speed);
+		y=y+(Math.sin(angle)*speed);
+		if ((x<0 || x>500) || (y<0 || y>500)){
+			x=250;
+			y=250;
+			angle=(Math.random()*2)*(Math.PI);
+			speed=Math.random()*2+2;
+			
+		}
+	}
+
+	public void show()
+	{
+		noStroke();
+		fill(0,255,0);
+		ellipse((float)x,(float)y,80,80);
 	}
 }
 
